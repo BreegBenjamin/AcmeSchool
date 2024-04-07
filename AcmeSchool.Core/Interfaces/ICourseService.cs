@@ -2,7 +2,7 @@
 
 namespace AcmeSchool.Core.Interfaces
 {
-    public interface ICourseRepository
+    public interface ICourseService
     {
         public ResponseDTO<CourseDTO> GetCourseById();
 

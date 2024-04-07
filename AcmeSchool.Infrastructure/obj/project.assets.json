@@ -1,11 +1,33 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {}
+    "net6.0": {
+      "AcmeSchool.Core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v6.0",
+        "compile": {
+          "bin/placeholder/AcmeSchool.Core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/AcmeSchool.Core.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.AspNetCore.App"
+        ]
+      }
+    }
   },
-  "libraries": {},
+  "libraries": {
+    "AcmeSchool.Core/1.0.0": {
+      "type": "project",
+      "path": "../AcmeSchool.Core/AcmeSchool.Core.csproj",
+      "msbuildProject": "../AcmeSchool.Core/AcmeSchool.Core.csproj"
+    }
+  },
   "projectFileDependencyGroups": {
-    "net6.0": []
+    "net6.0": [
+      "AcmeSchool.Core >= 1.0.0"
+    ]
   },
   "packageFolders": {
     "C:\\Users\\Usuario\\.nuget\\packages\\": {},
@@ -39,7 +61,11 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Desarrollo\\Net & Azure\\AcmeSchool\\AcmeSchool.Core\\AcmeSchool.Core.csproj": {
+              "projectPath": "C:\\Desarrollo\\Net & Azure\\AcmeSchool\\AcmeSchool.Core\\AcmeSchool.Core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {

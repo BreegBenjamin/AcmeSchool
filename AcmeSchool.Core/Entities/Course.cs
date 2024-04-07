@@ -10,7 +10,7 @@ namespace AcmeSchool.Core.Entities
         [Required(ErrorMessage = "Course name is required")]
         public string Name { get; set; }
 
-        [Range(0.01, 5000, ErrorMessage = "Registration fee must be greater than zero")]
+        [Range(500, 10000, ErrorMessage = "Registration fee must be greater than zero")]
         public float RegistrationFee { get; set; }
 
         [Required(ErrorMessage = "Course Start Date is required")]

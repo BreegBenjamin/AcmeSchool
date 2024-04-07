@@ -10,4 +10,8 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\AcmeSchool.Core\AcmeSchool.Core.csproj" />
+  </ItemGroup>
+
 </Project>
