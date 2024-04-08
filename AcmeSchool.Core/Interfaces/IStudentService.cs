@@ -8,7 +8,7 @@ namespace AcmeSchool.Core.Interfaces
         public ResponseDTO<StudentDTO> CreateStudent(StudentDTO student);
         public ResponseDTO<ResponseMessage> UpdateStudent(StudentDTO student);
         public ResponseDTO<ResponseMessage> DeleteStudent(int studentId);
-        public ResponseDTO<ResponseMessage> ValidatePayment(StudentDTO student);
+        public ResponseDTO<ResponseMessage> ValidateCoursePayment(int courseId, double coursePayment);
         public ResponseDTO<ResponseMessage> AddCourseToStudent(int studentId, CourseDTO course);
         public ResponseDTO<ResponseMessage> RemoveCourse(int studentId, CourseDTO course);
         public ResponseDTO<List<StudentDTO>> GetAllStudents();

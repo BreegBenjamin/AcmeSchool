@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "NLl5V/QjQc0dXb9yqBiQegkE7pFwqdVS9a/O2G0OcnY=",
+  "Source": "AcmeSchool.Core",
+  "BasePath": "_content/AcmeSchool.Core",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

@@ -4,19 +4,13 @@ namespace AcmeSchool.Core.Interfaces
 {
     public interface ICourseService
     {
-        public ResponseDTO<CourseDTO> GetCourseById();
+        public ResponseDTO<CourseDTO> GetCourseById(int courseId);
 
-        public ResponseDTO<CourseDTO> CreateCourse(CourseDTO course);
+        public ResponseDTO<ResponseMessage> UpdateCourse(CourseDTO courseDTO);
 
-        public void UpdateCourse(CourseDTO student);
+        public ResponseDTO<ResponseMessage> AddCourse(CourseDTO course);
 
-        public bool ValidateCoursePayment(CourseDTO student);
-
-        public void AddCourse(CourseDTO course);
-
-        public void DeleteCourse(CourseDTO course);
-
-        public void RemoveStudnetFromCourse(StudentDTO student);
+        public ResponseDTO<ResponseMessage> DeleteCourse(CourseDTO course);
 
         public ResponseDTO<List<CourseDTO>> GetAllCourse();
     }

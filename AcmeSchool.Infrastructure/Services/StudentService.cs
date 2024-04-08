@@ -1,21 +1,18 @@
 ﻿using AcmeSchool.Core.DTOs;
 using AcmeSchool.Core.Enums;
 using AcmeSchool.Core.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace AcmeSchool.Infrastructure.Services
 {
     public class StudentService : IStudentService
     {
         private readonly List<StudentDTO> studentsData;
-        public StudentService() 
+        private readonly ICourseService courseService;
+        public StudentService(ICourseService courseService) 
         {
             studentsData = ReadJsonData();
+            this.courseService =  courseService;
         }
 
 
@@ -30,7 +27,7 @@ namespace AcmeSchool.Infrastructure.Services
                     student.EnrolledCourses.Add(course);
                     studentsData.Add(student);
 
-                    return GetResponseMessage(ResponseMessageEnum.Ok, StatusDescriptionMessage.OK);
+                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK);
                 }
                 else 
                 {
@@ -53,7 +50,7 @@ namespace AcmeSchool.Infrastructure.Services
 
                     studentsData.Add(student);
 
-                    return GetStudentResponseMessage(ResponseMessageEnum.Ok, StatusDescriptionMessage.OK, student);
+                    return GetStudentResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK, student);
                 }
                 else
                 {
@@ -75,7 +72,7 @@ namespace AcmeSchool.Infrastructure.Services
                 if (student != null)
                 {
                     studentsData.Remove(student);
-                    return GetResponseMessage(ResponseMessageEnum.Ok, StatusDescriptionMessage.ELIMINATED_STUDENT);
+                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.ELIMINATED_STUDENT);
                 }
                 else
                 {
@@ -114,7 +111,7 @@ namespace AcmeSchool.Infrastructure.Services
                     return new ResponseDTO<List<StudentDTO>>()
                     {
                         DataResponse = listStudent,
-                        Status = ResponseMessageEnum.Ok,
+                        Status = ResponseMessageEnum.Success,
                         ResponseMessage = StatusDescriptionMessage.OK
                     };
                 }
@@ -150,7 +147,7 @@ namespace AcmeSchool.Infrastructure.Services
                     return new ResponseDTO<List<StudentDTO>>()
                     {
                         DataResponse = studentsData,
-                        Status = ResponseMessageEnum.Ok,
+                        Status = ResponseMessageEnum.Success,
                         ResponseMessage = StatusDescriptionMessage.OK
                     };
                 }
@@ -160,7 +157,7 @@ namespace AcmeSchool.Infrastructure.Services
                     {
                         DataResponse = new List<StudentDTO>(),
                         Status = ResponseMessageEnum.NoData,
-                        ResponseMessage = StatusDescriptionMessage.NO_DATA_IN_LIST_COURSE
+                        ResponseMessage = StatusDescriptionMessage.NO_DATA_IN_LIST_STUDENT
                     };
                 }
             }
@@ -170,7 +167,7 @@ namespace AcmeSchool.Infrastructure.Services
                 {
                     DataResponse = new List<StudentDTO>(),
                     Status = ResponseMessageEnum.Error,
-                    ResponseMessage = $"{StatusDescriptionMessage.LIST_COURSE_ERROR} : {ex.Message}"
+                    ResponseMessage = $"{StatusDescriptionMessage.LIST_STUDENT_ERROR} : {ex.Message}"
                 };
             }
         }
@@ -183,7 +180,7 @@ namespace AcmeSchool.Infrastructure.Services
 
                 if (student != null)
                 {
-                    return GetStudentResponseMessage(ResponseMessageEnum.Ok, StatusDescriptionMessage.OK, student);
+                    return GetStudentResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK, student);
                 }
                 else 
                 {
@@ -208,7 +205,7 @@ namespace AcmeSchool.Infrastructure.Services
                     if (course != null)
                     {
                         student.EnrolledCourses.Remove(course);
-                        return GetResponseMessage(ResponseMessageEnum.Ok, $"{StatusDescriptionMessage.COURSE_DETETED}");
+                        return GetResponseMessage(ResponseMessageEnum.Success, $"{StatusDescriptionMessage.COURSE_DETETED}");
                     }
                     else 
                     {
@@ -229,12 +226,56 @@ namespace AcmeSchool.Infrastructure.Services
 
         public ResponseDTO<ResponseMessage> UpdateStudent(StudentDTO student)
         {
-            throw new NotImplementedException();
+            try
+            {
+                StudentDTO? newStudentDTO = studentsData.Where(x => x.Id == student.Id).FirstOrDefault();
+                if (newStudentDTO != null)
+                {
+                    newStudentDTO.Name = student.Name;
+                    newStudentDTO.lastName = student.lastName;
+                    newStudentDTO.Age = student.Age;
+
+                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_UPDATE_SUCCESS);
+
+                }
+                else
+                {
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_ID_NOT_FOUND);
+
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.STUDENT_UPDATE_ERROR, ex.Message);
+            }
         }
 
-        public ResponseDTO<ResponseMessage> ValidatePayment(StudentDTO student)
+        public ResponseDTO<ResponseMessage> ValidateCoursePayment(int courseId, double coursePayment)
         {
+            try
+            {
+                var courseResponse = courseService.GetCourseById(courseId);
+                if (courseResponse.Status == ResponseMessageEnum.Success)
+                {
+                    if (coursePayment >= courseResponse.DataResponse?.RegistrationFee)
+                    {
+                        return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK);
+                    }
+                    else
+                    {
+                        return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.COURSE_COST);
+                    }
+                }
+                else 
+                {
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
+                }
+            }
+            catch (Exception ex)
+            {
+                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ERROR, ex.Message);
 
+            }
         }
 
         private List<StudentDTO> ReadJsonData() 
@@ -258,17 +299,17 @@ namespace AcmeSchool.Infrastructure.Services
             }
             catch (FileNotFoundException)
             {
-                Console.WriteLine("El archivo no se encontró en la ubicación especificada.");
+                Console.WriteLine(StatusDescriptionMessage.ERROR_MS_FILE_NOT_FOUND);
                 return new List<StudentDTO>();
             }
             catch (JsonException)
             {
-                Console.WriteLine("Error al deserializar el archivo JSON.");
+                Console.WriteLine(StatusDescriptionMessage.DESERIALIZE_ERROR);
                 return new List<StudentDTO>();
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Ocurrió un error: {ex.Message}");
+                Console.WriteLine($"{StatusDescriptionMessage.ERROR_MS_EXCEPTION}: {ex.Message}");
                 return new List<StudentDTO>();
             }
 
