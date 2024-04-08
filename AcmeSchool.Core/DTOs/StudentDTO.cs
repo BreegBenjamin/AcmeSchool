@@ -20,5 +20,24 @@ namespace AcmeSchool.Core.DTOs
         public int Age { get; set; }
 
         public List<CourseDTO> EnrolledCourses { get; set; } = new List<CourseDTO>();
+
+        public override bool Equals(object obj)
+        {
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            StudentDTO other = (StudentDTO)obj;
+            return Id == other.Id &&
+                   Name == other.Name &&
+                   lastName == other.lastName
+                   && Age == other.Age;
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Id, Name, lastName, Age);
+        }
     }
 }

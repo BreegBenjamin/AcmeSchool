@@ -12,6 +12,6 @@ namespace AcmeSchool.Core.Interfaces
 
         public ResponseDTO<ResponseMessage> DeleteCourse(CourseDTO course);
 
-        public ResponseDTO<List<CourseDTO>> GetAllCourse();
+        public ResponseDTO<List<CourseDTO>> GetAllCourse(int proccess);
     }
 }

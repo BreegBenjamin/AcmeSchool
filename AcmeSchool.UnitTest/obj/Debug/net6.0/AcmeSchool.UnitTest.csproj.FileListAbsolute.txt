@@ -1,4 +1,7 @@
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\CoverletSourceRootsMapping
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\testhost.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\appsettings.Development.json
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\appsettings.json
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\testhost.exe
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\xunit.runner.reporters.netcoreapp10.dll
@@ -8,6 +11,8 @@ C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSc
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.UnitTest.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.UnitTest.pdb
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.VisualStudio.CodeCoverage.Shim.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.TestPlatform.CoreUtilities.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.TestPlatform.PlatformAbstractions.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.VisualStudio.TestPlatform.ObjectModel.dll
@@ -86,6 +91,10 @@ C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\zh-Han
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CommunicationUtilities.resources.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\zh-Hant\Microsoft.TestPlatform.CrossPlatEngine.resources.dll
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\zh-Hant\Microsoft.VisualStudio.TestPlatform.Common.resources.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Core.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Infrastructure.dll
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Core.pdb
+C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Infrastructure.pdb
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\AcmeSchool.UnitTest.csproj.AssemblyReference.cache
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\AcmeSchool.UnitTest.GeneratedMSBuildEditorConfig.editorconfig
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\AcmeSchool.UnitTest.AssemblyInfoInputs.cache
@@ -98,14 +107,3 @@ C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\refint
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\AcmeSchool.UnitTest.pdb
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\AcmeSchool.UnitTest.genruntimeconfig.cache
 C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\obj\Debug\net6.0\ref\AcmeSchool.UnitTest.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\CoverletSourceRootsMapping
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\appsettings.Development.json
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\appsettings.json
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Castle.Core.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\Moq.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Core.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Infrastructure.dll
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Core.pdb
-C:\Desarrollo\Net & Azure\AcmeSchool\AcmeSchool.UnitTest\bin\Debug\net6.0\AcmeSchool.Infrastructure.pdb

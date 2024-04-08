@@ -2,6 +2,7 @@
 using AcmeSchool.Core.Enums;
 using AcmeSchool.Core.Interfaces;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace AcmeSchool.Infrastructure.Services
 {
@@ -17,16 +18,19 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                if (course != null)
+                if (course.Id != 0)
                 {
                     coursesData.Add(course);
-                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK);
+                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_ADD_SUCCESS);
 
                 }
-                else 
+                else if (course.Equals(new CourseDTO()))
                 {
-                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_IS_NULL);
-
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
+                }
+                else
+                {
+                    throw new  Exception();
                 }
             }
             catch (Exception ex)
@@ -39,28 +43,31 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                if (course != null)
+                if (course.Id != 0)
                 {
                     coursesData.Remove(course);
                     return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_ELIMINATED);
                 }
-                else
+                else if (course.Equals(new CourseDTO())) 
                 {
                     return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
-
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ERROR_TO_INSERT_COURSE, ex.Message);
+                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ERROR_MS_EXCEPTION, ex.Message);
             }
         }
 
-        public ResponseDTO<List<CourseDTO>> GetAllCourse()
+        public ResponseDTO<List<CourseDTO>> GetAllCourse(int proccess)
         {
             try
             {
-                if (coursesData.Any())
+                if (coursesData.Any() && proccess == 1)
                 {
                     return new ResponseDTO<List<CourseDTO>>()
                     {
@@ -69,23 +76,27 @@ namespace AcmeSchool.Infrastructure.Services
                         ResponseMessage = StatusDescriptionMessage.OK
                     };
                 }
-                else
+                else if (proccess == 2)
+                {
+                    throw new Exception();
+                }
+                else 
                 {
                     return new ResponseDTO<List<CourseDTO>>()
                     {
-                        DataResponse = coursesData,
+                        DataResponse = new List<CourseDTO>(),
                         Status = ResponseMessageEnum.NoData,
                         ResponseMessage = StatusDescriptionMessage.NO_DATA_IN_LIST_COURSE
                     };
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ResponseDTO<List<CourseDTO>>()
                 {
                     DataResponse = new List<CourseDTO>(),
                     Status = ResponseMessageEnum.Error,
-                    ResponseMessage = $"{StatusDescriptionMessage.LIST_COURSE_ERROR} : {ex.Message}"
+                    ResponseMessage = StatusDescriptionMessage.LIST_COURSE_ERROR 
                 };
             }
         }
@@ -94,20 +105,25 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                CourseDTO? course = coursesData.Where(x => x.Id == courseId).FirstOrDefault();
+                CourseDTO course = coursesData.FirstOrDefault(x => x.Id == courseId) ?? new CourseDTO() {Id = courseId };
 
-                if (course != null)
+                if (course?.Id != 0 && course.RegistrationFee != 0)
                 {
                     return GetCourseResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK, course);
                 }
-                else
+                else if (course.Equals(new CourseDTO())) 
                 {
                     return GetCourseResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA, new CourseDTO());
+
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                return GetCourseResponseMessage(ResponseMessageEnum.Error, $"{StatusDescriptionMessage.STUDENT_ERROR} : {ex.Message}", new CourseDTO());
+                return GetCourseResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ERROR_MS_EXCEPTION,  new CourseDTO());
             }
         }
 
@@ -126,10 +142,13 @@ namespace AcmeSchool.Infrastructure.Services
                     return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_UPDATE_SUCCESS);
 
                 }
-                else 
+                else if (courseDTO.Equals(new CourseDTO())) 
                 {
                     return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_ID_NOT_FOUND);
-
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
@@ -142,12 +161,22 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                string path = @"\\Data\courseData.json";
+                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string file = Path.Combine(currentDirectory, @"..\..\..\Data\courseData.json");
+                string filePath = Path.GetFullPath(file);
 
-                if (File.Exists(path))
+
+                if (File.Exists(filePath))
                 {
-                    string jsonData = File.ReadAllText(path);
-                    List<CourseDTO>? students = JsonSerializer.Deserialize<List<CourseDTO>>(jsonData);
+                    string jsonData = File.ReadAllText(filePath);
+
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        Converters = { new DateTimeConverter() }
+                    };
+
+                    List<CourseDTO>? students = JsonSerializer.Deserialize<List<CourseDTO>>(jsonData, options: options);
 
                     if (students != null) return students;
 
@@ -199,4 +228,20 @@ namespace AcmeSchool.Infrastructure.Services
             };
         }
     }
+
+    public class DateTimeConverter : JsonConverter<DateTime>
+    {
+        public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            string dateString = reader.GetString();
+            return DateTime.ParseExact(dateString, "dd/MM/yyyy", null);
+        }
+
+        public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
+        {
+            writer.WriteStringValue(value.ToString("dd/MM/yyyy"));
+        }
+    }
 }
+
+

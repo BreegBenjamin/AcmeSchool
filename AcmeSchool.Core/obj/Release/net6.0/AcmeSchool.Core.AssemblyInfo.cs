@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AcmeSchool.Core")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d2ffd800aa86f7d0f3a60e1ce27739e722504b5c")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+816da5bf24504ffc05e6ecc1aa6564398f93ca42")]
 [assembly: System.Reflection.AssemblyProductAttribute("AcmeSchool.Core")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AcmeSchool.Core")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

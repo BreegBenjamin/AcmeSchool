@@ -15,6 +15,8 @@
 
         public const string NO_DATA = "No data to show";
 
+        public const string COURSE_ADD_SUCCESS = "Course add success";
+
         public const string COURSE_COST = "The cost of the course is higher than what was paid";
 
         public const string STUDENT_IS_NULL = "Student is null";
@@ -22,6 +24,8 @@
         public const string ERROR_TO_INSERT_COURSE = "Error to insert course to student list"; 
 
         public const string ELIMINATED_STUDENT = "Student eliminated";
+
+        public const string ELIMINATED_STUDENT_ERROR = "Error to eliminate student";
 
         public const string STUDENT_ERROR = "Error to insert student: ";
 

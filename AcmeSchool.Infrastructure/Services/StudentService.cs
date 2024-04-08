@@ -15,7 +15,6 @@ namespace AcmeSchool.Infrastructure.Services
             this.courseService =  courseService;
         }
 
-
         public ResponseDTO<ResponseMessage> AddCourseToStudent(int studentId, CourseDTO course)
         {
             try
@@ -29,9 +28,13 @@ namespace AcmeSchool.Infrastructure.Services
 
                     return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK);
                 }
-                else 
+                else if (course.Equals(new CourseDTO())) 
                 {
-                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_IS_NULL); 
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_IS_NULL);
+                }
+                else
+                {
+                    throw new Exception();
                 }
 
             }
@@ -45,21 +48,25 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                if (student != null) 
+                if (student != null)
                 {
 
                     studentsData.Add(student);
 
                     return GetStudentResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK, student);
                 }
+                else if (student.Equals(new StudentDTO()))
+                {
+                    return GetStudentResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_IS_NULL, new StudentDTO());
+                }
                 else
                 {
-                    return GetStudentResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_IS_NULL, new StudentDTO()); 
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                return GetStudentResponseMessage(ResponseMessageEnum.Error, $"{StatusDescriptionMessage.STUDENT_ERROR} {ex.Message}", new StudentDTO());
+                return GetStudentResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.STUDENT_ERROR, new StudentDTO());
             }
         }
 
@@ -67,21 +74,25 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                var student = studentsData.FirstOrDefault(x => x.Id == studentId);
+                var student = studentsData.FirstOrDefault(x => x.Id == studentId) ?? new StudentDTO() { Id = studentId} ;
 
-                if (student != null)
+                if (student.Id > 0)
                 {
                     studentsData.Remove(student);
                     return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.ELIMINATED_STUDENT);
                 }
-                else
+                else if (student.Equals(new StudentDTO())) 
                 {
                     return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
             {
-                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ERROR_TO_INSERT_COURSE, ex.Message);
+                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.ELIMINATED_STUDENT_ERROR, ex.Message);
             }
         }
 
@@ -131,7 +142,7 @@ namespace AcmeSchool.Infrastructure.Services
                 {
                     DataResponse = new List<StudentDTO>(),
                     Status = ResponseMessageEnum.Error,
-                    ResponseMessage = $"{StatusDescriptionMessage.LIST_COURSE_ERROR} : {ex.Message}"
+                    ResponseMessage = StatusDescriptionMessage.LIST_COURSE_ERROR
                 };
             }
 
@@ -161,13 +172,13 @@ namespace AcmeSchool.Infrastructure.Services
                     };
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new ResponseDTO<List<StudentDTO>>()
                 {
                     DataResponse = new List<StudentDTO>(),
                     Status = ResponseMessageEnum.Error,
-                    ResponseMessage = $"{StatusDescriptionMessage.LIST_STUDENT_ERROR} : {ex.Message}"
+                    ResponseMessage = StatusDescriptionMessage.LIST_STUDENT_ERROR
                 };
             }
         }
@@ -189,7 +200,7 @@ namespace AcmeSchool.Infrastructure.Services
             }
             catch (Exception ex)
             {
-                return GetStudentResponseMessage(ResponseMessageEnum.Error, $"{StatusDescriptionMessage.STUDENT_ERROR} : {ex.Message}", new StudentDTO());
+                return GetStudentResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.STUDENT_ERROR, new StudentDTO());
             }
         }
 
@@ -201,26 +212,30 @@ namespace AcmeSchool.Infrastructure.Services
 
                 if (student != null)
                 {
-                    CourseDTO? course = student.EnrolledCourses.Where(x=> x.Id == courseDto.Id).FirstOrDefault();
+                    CourseDTO? course = student.EnrolledCourses.Where(x => x.Id == courseDto.Id).FirstOrDefault();
                     if (course != null)
                     {
                         student.EnrolledCourses.Remove(course);
-                        return GetResponseMessage(ResponseMessageEnum.Success, $"{StatusDescriptionMessage.COURSE_DETETED}");
+                        return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_DETETED);
                     }
-                    else 
+                    else
                     {
-                        return GetResponseMessage(ResponseMessageEnum.NoData, $"{StatusDescriptionMessage.NO_DATA}");
+                        return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
                     }
                 }
-                else {
-                    return GetResponseMessage(ResponseMessageEnum.NoData, $"{StatusDescriptionMessage.NO_DATA}");
+                else if (courseDto.Equals(new CourseDTO())) 
+                {
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
+                }
+                else
+                {
+                    throw new Exception();
                 }
 
             }
             catch (Exception ex)
             {
-                return GetResponseMessage(ResponseMessageEnum.Error, $"{StatusDescriptionMessage.STUDENT_ERROR} : {ex.Message}");
-
+                return GetResponseMessage(ResponseMessageEnum.Error, StatusDescriptionMessage.STUDENT_ERROR);
             }
         }
 
@@ -235,13 +250,16 @@ namespace AcmeSchool.Infrastructure.Services
                     newStudentDTO.lastName = student.lastName;
                     newStudentDTO.Age = student.Age;
 
-                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.COURSE_UPDATE_SUCCESS);
+                    return GetResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.STUDENT_UPDATE_SUCCESS);
 
+                }
+                else if (student.Equals(new StudentDTO())) 
+                {
+                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_ID_NOT_FOUND);
                 }
                 else
                 {
-                    return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.STUDENT_ID_NOT_FOUND);
-
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
@@ -282,12 +300,20 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                string path = @"\\Data\studentData.json";
+                string currentDirectory = AppDomain.CurrentDomain.BaseDirectory;
+                string file = Path.Combine(currentDirectory, @"..\..\..\Data\studentData.json");
+                string filePath = Path.GetFullPath(file);
 
-                if (File.Exists(path))
+                if (File.Exists(filePath))
                 {
-                    string jsonData = File.ReadAllText(path);
-                    List<StudentDTO>? students = JsonSerializer.Deserialize<List<StudentDTO>>(jsonData);
+                    string jsonData = File.ReadAllText(filePath);
+                    var options = new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                        Converters = { new DateTimeConverter() }
+                    };
+
+                    List<StudentDTO>? students = JsonSerializer.Deserialize<List<StudentDTO>>(jsonData, options: options);
 
                     if (students != null) return students;
 
@@ -337,5 +363,7 @@ namespace AcmeSchool.Infrastructure.Services
                 DataResponse =  studentDTO
             };
         }
+        
+
     }
 }

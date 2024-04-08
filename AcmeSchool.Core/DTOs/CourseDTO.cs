@@ -19,5 +19,25 @@
 
             [Required(ErrorMessage = "Course End Date is required")]
             public DateTime EndDate { get; set; }
+
+            public override bool Equals(object obj)
+            {
+                if (obj == null || GetType() != obj.GetType())
+                {
+                    return false;
+                }
+
+                CourseDTO other = (CourseDTO)obj;
+                return Id == other.Id &&
+                       Name == other.Name &&
+                       StartDate == other.StartDate 
+                       && EndDate == other.EndDate
+                       && RegistrationFee == other.RegistrationFee;
+            }
+
+            public override int GetHashCode()
+            {
+                return HashCode.Combine(Id, Name, StartDate, EndDate, RegistrationFee);
+            }
         }
     }
