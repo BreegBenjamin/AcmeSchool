@@ -23,7 +23,7 @@ namespace AcmeSchool.UnitTest.NoDataTestCases
         public void GetStudentById_Returns_NoData()
         {
             // Arrange
-            int studentId = -1; // Using a non-existent student ID
+            int studentId = 0;
 
             var expectedResponse = new ResponseDTO<StudentDTO>
             {
@@ -45,13 +45,13 @@ namespace AcmeSchool.UnitTest.NoDataTestCases
         public void CreateStudent_Returns_NoData()
         {
             // Arrange
-            var studentDTO = new StudentDTO(); // Empty StudentDTO
+            var studentDTO = new StudentDTO();
 
             var expectedResponse = new ResponseDTO<StudentDTO>
             {
                 Status = ResponseMessageEnum.NoData,
                 ResponseMessage = StatusDescriptionMessage.STUDENT_IS_NULL,
-                DataResponse = new StudentDTO() // Empty StudentDTO
+                DataResponse = new StudentDTO()
             };
 
             // Act
@@ -194,7 +194,7 @@ namespace AcmeSchool.UnitTest.NoDataTestCases
             Assert.Equal(expectedResponse.Status, actualResponse.Status);
             Assert.Equal(expectedResponse.ResponseMessage, actualResponse.ResponseMessage);
             Assert.NotNull(actualResponse.DataResponse);
-            Assert.Empty(actualResponse.DataResponse); // Ensure the list is empty
+            Assert.Empty(actualResponse.DataResponse);
         }
 
         [Fact]

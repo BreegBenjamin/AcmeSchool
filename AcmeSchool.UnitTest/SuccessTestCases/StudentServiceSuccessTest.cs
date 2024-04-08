@@ -218,7 +218,7 @@ namespace AcmeSchool.UnitTest.SuccessTestCases
             };
 
             // Act
-            var actualResponse = _studentService.GetAllStudents();
+            var actualResponse = _studentService.GetAllStudents(1);
 
 
             // Assert

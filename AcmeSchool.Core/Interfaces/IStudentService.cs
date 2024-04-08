@@ -11,7 +11,7 @@ namespace AcmeSchool.Core.Interfaces
         public ResponseDTO<ResponseMessage> ValidateCoursePayment(int courseId, double coursePayment);
         public ResponseDTO<ResponseMessage> AddCourseToStudent(int studentId, CourseDTO course);
         public ResponseDTO<ResponseMessage> RemoveCourse(int studentId, CourseDTO course);
-        public ResponseDTO<List<StudentDTO>> GetAllStudents();
+        public ResponseDTO<List<StudentDTO>> GetAllStudents(int proccess = 0);
         public ResponseDTO<List<StudentDTO>> GetAllCourseByDate(string initDate, string endDate);
     }
 }

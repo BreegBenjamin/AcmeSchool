@@ -48,7 +48,7 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                if (student != null)
+                if (student != null && student.Id > 0)
                 {
 
                     studentsData.Add(student);
@@ -149,11 +149,11 @@ namespace AcmeSchool.Infrastructure.Services
 
         } 
 
-        public ResponseDTO<List<StudentDTO>> GetAllStudents()
+        public ResponseDTO<List<StudentDTO>> GetAllStudents(int proccess)
         {
             try
             {
-                if (studentsData.Any())
+                if (studentsData.Any() && proccess == 1)
                 {
                     return new ResponseDTO<List<StudentDTO>>()
                     {
@@ -161,6 +161,10 @@ namespace AcmeSchool.Infrastructure.Services
                         Status = ResponseMessageEnum.Success,
                         ResponseMessage = StatusDescriptionMessage.OK
                     };
+                }
+                else if (proccess == 2) 
+                {
+                    throw new Exception();
                 }
                 else
                 {
@@ -187,15 +191,19 @@ namespace AcmeSchool.Infrastructure.Services
         {
             try
             {
-                StudentDTO? student = studentsData.Where(x => x.Id == studentId).FirstOrDefault();
+                StudentDTO? student = studentsData.Where(x => x.Id == studentId).FirstOrDefault() ?? new StudentDTO() { Id = studentId};
 
-                if (student != null)
+                if (student.Id > 0)
                 {
                     return GetStudentResponseMessage(ResponseMessageEnum.Success, StatusDescriptionMessage.OK, student);
                 }
-                else 
+                else if (student.Equals(new StudentDTO())) 
                 {
                     return GetStudentResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA, new StudentDTO());
+                }
+                else
+                {
+                    throw new Exception();
                 }
             }
             catch (Exception ex)
@@ -284,7 +292,11 @@ namespace AcmeSchool.Infrastructure.Services
                         return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.COURSE_COST);
                     }
                 }
-                else 
+                else if (courseResponse.Status == ResponseMessageEnum.Error) 
+                {
+                    throw new Exception();
+                }
+                else
                 {
                     return GetResponseMessage(ResponseMessageEnum.NoData, StatusDescriptionMessage.NO_DATA);
                 }

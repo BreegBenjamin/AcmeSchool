@@ -53,7 +53,7 @@ namespace AcmeSchool.UnitTest.ErrorTestCases
             };
 
             // Act
-            var actualResponse = _studentService?.GetAllStudents();
+            var actualResponse = _studentService?.GetAllStudents(2);
 
             // Assert
             Assert.Equal(expectedResponse.Status, actualResponse?.Status);
@@ -66,7 +66,7 @@ namespace AcmeSchool.UnitTest.ErrorTestCases
         public void CreateStudent_Returns_Error()
         {
             // Arrange
-            var studentDTO = new StudentDTO();
+            var studentDTO = new StudentDTO() { Id = -117};
 
             var expectedResponse = new ResponseDTO<StudentDTO>
             {
@@ -140,7 +140,7 @@ namespace AcmeSchool.UnitTest.ErrorTestCases
             var expectedResponse = new ResponseDTO<ResponseMessage>
             {
                 Status = ResponseMessageEnum.Error,
-                ResponseMessage = StatusDescriptionMessage.STUDENT_ERROR,
+                ResponseMessage = StatusDescriptionMessage.ERROR_TO_INSERT_COURSE,
                 DataResponse = new ResponseMessage { Message = StatusDescriptionMessage.NO_DATA }
             };
 
@@ -162,7 +162,7 @@ namespace AcmeSchool.UnitTest.ErrorTestCases
             var expectedResponse = new ResponseDTO<ResponseMessage>
             {
                 Status = ResponseMessageEnum.Error,
-                ResponseMessage = StatusDescriptionMessage.STUDENT_ERROR,
+                ResponseMessage = StatusDescriptionMessage.STUDENT_UPDATE_ERROR,
                 DataResponse = new ResponseMessage { Message = StatusDescriptionMessage.NO_DATA }
             };
 
@@ -202,8 +202,8 @@ namespace AcmeSchool.UnitTest.ErrorTestCases
         public void GetAllCourseByDate_Returns_Error()
         {
             // Arrange
-            string initDate = "2025-01-01";
-            string endDate = "2024-12-31";
+            string initDate = "TextoFalse";
+            string endDate = "19987-201";
 
             var expectedResponse = new ResponseDTO<List<StudentDTO>>
             {
